@@ -65,22 +65,50 @@ let person:Person = {
 };
 
 
+// union |
+
+type Webdevelper = 'Front' | " back"
 
 
 
+const frontend:Webdevelper = 'Front'
+
+
+// Intersection type is '&'
+
+
+// nullish operator 
+
+// '??'
+
+
+let usera:any = {
+    name:'ashraful',
+    roll:7,
+    sal:  1232032
+}
+let money= usera?.sal?.low ?? 'low not available'
+
+
+//  Unknown type
+
+const getdata = (value:unknown)=>{
+if (typeof value === 'number') {
+    console.log('value is number');
+    
+} else if (typeof value === 'string'){
+    let [result, unit] = value.split(' ')
+    
+    
+        console.log( 'value is again number');
+    
+}
+
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+// getdata('232 km')
+// never type 
 
 }
