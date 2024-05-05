@@ -202,17 +202,34 @@
         id: 45, name: '4td', adress: ' bd', pay: true
     })
 
-    console.log(res8);
+
+// constrain with generic . use of key of
+
+type Gari ={
+    name:string;
+    model:string;
+    price:number
+}
+
+type Owner1 = "name" | "model" | "price"
+type Owner =  keyof Gari
+
+let myOwn : Owner = "name"
 
 
+const getObjinfn = <O , K extends keyof O > (obj:O , key:K) =>{
+    return obj[key]
+}
+
+let m =  {
+    name:'abne',age:'24', price:'33'
+}
 
 
+let result1e = getObjinfn(m,'age')
 
 
-
-
-
-
+console.log(result1e);
 
 
 
