@@ -242,7 +242,7 @@
     // poormanac.addBal(90)
     poormanac.setballance = 10;
     let bal = poormanac.ball
-    console.log(bal);
+
 
     // poormanac.getStats()
 
@@ -252,6 +252,210 @@
             this.username
         }
     }
+
+
+
+
+    //  Statics In OOP
+
+    class Counter {
+        static counts: number = 0
+
+
+        static increment() {
+            return (Counter.counts = Counter.counts + 1)
+        }
+
+    }
+
+    let result = Counter.increment()
+    let resul2 = Counter.increment()
+
+    // console.log(result,resul2);
+
+
+    // Polymorphism
+
+    class Anthing {
+
+        public getAnyinfo() {
+            console.log('No info here');
+
+        }
+    }
+
+
+    class Myhome extends Anthing {
+        public getAnyinfo(): void {
+            console.log('I have a simple home');
+
+        }
+    }
+
+    let getFinalinFO = (param: Anthing) => {
+        param.getAnyinfo()
+
+    }
+
+
+    let p1 = new Anthing()
+    let p2 = new Myhome()
+    // getFinalinFO(p2)
+    // getFinalinFO(p1)
+
+    class Total {
+        getTotal() {
+            return 0
+
+        }
+    }
+
+    class Addfn extends Total {
+        constructor(public a: number, public b: number) {
+            super()
+        }
+        getTotal() {
+            return this.a + this.b
+        }
+
+    }
+
+
+    const getFinalTotal = (param: Total) => {
+        console.log(param.getTotal());
+
+
+    }
+
+    let zOg = new Addfn(12, 12)
+    let tt = new Total()
+
+    // getFinalTotal(zOg)
+    // getFinalTotal(tt)
+
+
+
+
+    // Abstraction  > it is an idea of real implementation of a class prperty
+
+
+    // interface abs
+
+    interface Homes {
+        enterHome(): void;
+        exitHome(): void;
+    }
+
+
+    class Other implements Homes {
+        enterHome(): void {
+            console.log('i enter');
+
+        }
+        exitHome(): void {
+            console.log(' iam out');
+
+        }
+    }
+
+    let g = new Other()
+    // g.enterHome()
+    //  g.exitHome()
+
+
+    // abstruntion clss
+
+    abstract class Home2 {
+        abstract enterHome(): void;
+        abstract exitHome(): void;
+    }
+
+
+    class Townhome extends Home2 {
+        enterHome(): void {
+            console.log('home in the town');
+
+        }
+        exitHome(): void {
+            console.log("out side from town");
+
+        }
+    }
+
+    let t = new Townhome()
+    t.enterHome(); t.exitHome()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
