@@ -12,12 +12,13 @@ function add( n1:number, n2:number) {
 let all= {
     name:'fahim',
     job: 'no job',
-    salry: 0,
+    salry: 10,
     addsalary (salry:number){
         return this.salry + salry
     }
 
 }
+
 
 
 // spred operator
@@ -27,17 +28,22 @@ let b1: string[] = ['books1', 'boks2']
 
  b1.push(...b2)
 
+let [a,,...d] = b1
+
+
+
 
 
 // rest operator
 
 
 function tp(...items:string[]) {
-    return items.forEach(e => 'hi')
+ return   items.forEach(e => 'e')
 }
 
 
-tp('my', 'next')
+console.log(tp());
+
 
 
 // type alias
