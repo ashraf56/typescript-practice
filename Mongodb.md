@@ -56,17 +56,12 @@ db.test.find({
   .projection({name:1,email:1})
   .sort({age:1})
   
-  problem 2 
+ // problem 2 
   db.test.find({
       favoutiteColor:{$in: ["Maroon","Blue"]}
   })
      .projection({favoutiteColor:1})
 
-// problem 2 
-  db.test.find({
-      favoutiteColor:{$in: ["Maroon","Blue"]}
-  })
-     .projection({favoutiteColor:1})
 
 
 
@@ -126,8 +121,76 @@ db.test.updateOne(
 }})
 //problem 7
 
-// db.test.updateMany(
-//   { "skills.name": "KOTLIN" },
-//   { $pull: { "skills": { "name": "KOTLIN" } } }
-// )
+db.test.updateMany(
+  { "skills.name": "KOTLIN" },
+  { $pull: { "skills": { "name": "KOTLIN" } } }
+)
 
+
+
+db.test.aggregate([
+   //stage 1
+   {$match: {gender:"Female"}},
+   //2
+   {$addFields: {inHouse:true}},
+   
+   //3 
+   {$project: {inHouse:1,gender:1}},
+   
+   //Merge into  new  
+   {$out:'newOLL'}
+{$merge:  "test" }
+    ])
+
+
+
+    
+db.test.aggregate([
+    {
+        $group: {
+            _id: "$address.country",
+            count: { $sum: 1 },
+            doc: { $push: "$address.country" },
+            FullDoc: { $push: '$$ROOT' }
+
+        }
+
+    },
+    {$project: { count:1, 'doc':1,  'FullDoc.name':1,'FullDoc.email':1,'FullDoc.gender':1}}
+
+])
+
+db.test.aggregate([
+    {
+        $group: {
+            _id: null,
+            count:{$sum:"$salary"},
+            Highest:{$max:"$salary"},
+            Chips:{$min:"$salary"},
+           avarageSal:{$avg:"$salary"},
+
+        }
+        
+    },
+    {
+        $project: {rangs:{$subtract: ["$Highest","$Chips"]} , LowSalary:"$Chips"
+        }
+        
+    }
+    
+    
+    
+    ])
+  
+
+
+  db.test.aggregate([
+
+    { $unwind: "$interests" },
+
+    {
+        $group: { _id: "$age", Hobies: { $push: "$interests" } }
+    }
+    ,
+    { $project: { age: "$_id", Hobies: 1 } }
+])
