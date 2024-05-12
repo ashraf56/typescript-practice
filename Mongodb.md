@@ -47,3 +47,87 @@ db.test.find(
 
 // Update for premitive and object = $set,
 // Array update= $addtoset and $push. For remove $pop. $pull, $pullAll
+
+
+// problem 1
+db.test.find({
+    age:{$gt:30}
+})
+  .projection({name:1,email:1})
+  .sort({age:1})
+  
+  problem 2 
+  db.test.find({
+      favoutiteColor:{$in: ["Maroon","Blue"]}
+  })
+     .projection({favoutiteColor:1})
+
+// problem 2 
+  db.test.find({
+      favoutiteColor:{$in: ["Maroon","Blue"]}
+  })
+     .projection({favoutiteColor:1})
+
+
+
+// problem3
+
+
+db.test.find({skills:{$size:0}}).project({skills:1})
+  
+
+// Problem 4
+
+db.test.find(
+    {
+        $and: [
+
+          {'skills.name':"JAVASCRIPT"},
+          {'skills.name':"JAVA"}
+
+        ]
+
+    }
+).project({skills:1})
+
+
+
+// problem 5 
+
+db.test.updateOne({ _id: ObjectId('6406ad63fc13ae5a40000065') },
+    {
+        $set: {
+            email: 'aminextleveldeveloper@gmail.com',
+
+
+        },
+        $addToSet: {
+            skills: {
+                $each: [{
+                    "name": "Python"
+                    ,
+                    "level": "Beginner"
+                    ,
+                    "isLearning": true
+                }]
+            }
+        }
+        ,
+    })
+
+
+    //problem 6
+
+db.test.updateOne(
+    { _id: ObjectId('6406ad63fc13ae5a40000065')},
+
+{$addToSet:{
+    languages:{$each: ["Spanish"]}
+}})
+//problem 7
+
+// db.test.updateMany(
+//   { "skills.name": "KOTLIN" },
+//   { $pull: { "skills": { "name": "KOTLIN" } } }
+// )
+
