@@ -45,6 +45,25 @@ db.test.find(
 ).project({age:1,skills:1})
 
 
+db.test.updateOne( {
+    _id: ObjectId("6406ad63fc13ae5a40000066"),"education.year":2121
+    
+}, {
+    $set:{
+        'education.$.year':2005
+    }
+})
+
+
+db.test.updateOne( {
+    _id: ObjectId("6406ad63fc13ae5a40000066")
+    
+}, {
+    $inc:{
+         age:2
+     }
+ })
+
 // Update for premitive and object = $set,
 // Array update= $addtoset and $push. For remove $pop. $pull, $pullAll
 
@@ -126,7 +145,7 @@ db.test.updateMany(
   { $pull: { "skills": { "name": "KOTLIN" } } }
 )
 
-
+// agregation
 
 db.test.aggregate([
    //stage 1
@@ -194,3 +213,123 @@ db.test.aggregate([
     ,
     { $project: { age: "$_id", Hobies: 1 } }
 ])
+
+
+
+
+
+
+db.test.aggregate([
+    {
+        $bucket: {
+            groupBy: "$salary",
+            boundaries: [100, 300, 400],
+            default: "400 $ er upore",
+            output: {
+                count: { $sum: "$salary" },
+                Totalsperson: { $push: "$name" }
+            }
+        }
+    },
+
+    {
+        $sort: { salary: 1 }
+    },
+    {
+        $limit: 20
+    },
+    {
+        $project: { count: 1, Totalsperson: 1 }
+    }
+
+])
+
+// multiple pipelines
+
+db.test.aggregate([
+    {
+        $facet: {
+            //start
+            //pipeline 1
+            "education":[
+                {$unwind:"$education"},
+                {$group: { _id: "$education.major", count:{$sum:1}}},
+                {$sort:{_id:1}}
+                
+                ],
+            //pipeline2
+            'languages':[
+                {$unwind: "$languages"},
+                {
+                    $group: { _id: "$languages", count:{$sum:1}}
+                }
+                ]
+        
+            //end
+        }
+    }
+    
+    
+    
+    ])
+
+    db.order.aggregate([
+    {
+        $lookup: {
+               from: "test",
+               localField: "userId",
+               foreignField: "_id",
+               as: "userinfo"
+             }
+    }
+    
+    
+    ])
+
+
+
+    // practice 2
+
+    // problem 1
+
+    db.getCollection("massive data").aggregate([
+    {$match:{isActive:true}},
+    {$group: { _id: "$gender" , count:{$sum:1}  }}
+    
+   
+    
+    ])
+
+    //p2 
+
+    db.getCollection('massive data').aggregate([
+    
+    {$match: {
+        isActive:true,
+        favoriteFruit:"banana"
+    }}
+    //sol end here
+    ,
+    {
+        $group: { _id: "$favoriteFruit" , count:{$sum:1}, Info:{$push:"$$ROOT"}  }
+    }
+    ,{
+        $project: {count:1, "Info.name":1, "Info.email":1}
+    }
+    
+    
+    ])
+
+    //p-3
+//my sol
+    db.getCollection('massive data').aggregate([
+    
+  
+    {
+        $group: { _id: null , avg:{$avg:'$age'}, favoriteFruit:{$push:"$favoriteFruit"}  }
+    }
+    ,{
+        $project: {avg:1, favoriteFruit:1}
+    }
+    
+    
